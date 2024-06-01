@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "BlackJack",
   description: "Play BlackJack online!",
   icons: {
-    icon: "/favicon.ico",
+    icon: "/blackjack.ico",
   },
 };
 
