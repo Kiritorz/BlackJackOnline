@@ -125,7 +125,7 @@ export const GameHistoryModal = (props: GameHistoryModalProps) => {
       <Modal size="3xl" isOpen={props.isCookieAlertOpen} onOpenChange={props.onCookieAlertOpenChange} scrollBehavior="inside">
         <ModalContent>
           <ModalHeader className="text-2xl pb-2">
-            Not Available
+            Not Available Now
           </ModalHeader>
           <ModalBody className="mb-4">
             <div className="bg-red-100/80 py-2 px-4 rounded-lg border-l-4 border-l-red-600">

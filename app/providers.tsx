@@ -17,7 +17,11 @@ export function Providers({ children, themeProps }: ProvidersProps) {
 
   return (
     <WebSocketProvider
-      url="wss://kiritorz.github.io/BlackJackOnline/api/ws"
+      url={
+        process.env.NODE_ENV === "production"
+          ? "wss://www.kiritorz.github.io/BlackJackOnline/api/ws"
+          : "ws://localhost:3000/api/ws"
+      }
     >
       <NextUIProvider navigate={router.push}>
         <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>
