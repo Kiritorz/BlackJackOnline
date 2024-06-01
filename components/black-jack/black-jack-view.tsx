@@ -403,21 +403,21 @@ cursor-pointer hover:text-gray-500 active:scale-95 transition ease-in-out transf
                         description="Learn How to Play"
                         textValue="Learn How to Play"
                         startContent={<SparklesIcon fill="#1DCD46" width={20} height={20} />}
-                        onClick={onHelpModalOpen}
+                        onPress={onHelpModalOpen}
                     />
                     <DropdownItem
                         key="game-history"
                         description="View Game History"
                         textValue="View Game History"
                         startContent={<ClockIcon fill="#EBA61D" width={20} height={20} />}
-                        onClick={onGameHistoryOpen}
+                        onPress={onGameHistoryOpen}
                     />
                     <DropdownItem
                         key="friends-match"
                         description="Play With Friends"
                         textValue="Play With Friends"
                         startContent={<GlobeAsiaAustraliaIcon fill="#1D8FCD" width={20} height={20} />}
-                        onClick={onFriendsMatchOpen}
+                        onPress={onFriendsMatchOpen}
                     />
                 </DropdownMenu>
             </Dropdown>
