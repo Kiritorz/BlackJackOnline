@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+    color-scheme: light;
+    background-attachment: fixed;
+    background:
+        radial-gradient(at 0 84%, #8aecd1 0, transparent 50%),
+        radial-gradient(at 100% 0, #ffffff 0, transparent 50%),
+        radial-gradient(at 0 0, #9cecfb 0, transparent 50%),
+        radial-gradient(at 100% 0, #c7ad3a 0, transparent 50%),
+        radial-gradient(at 54% 0, #ffffff 0, transparent 50%),
+        radial-gradient(at 97% 96%, #ffffff 0, transparent 50%),
+        radial-gradient(at 20% 0, #8ad551 0, transparent 50%),
+        radial-gradient(at 80% 0, #ffffff 0, transparent 50%),
+        radial-gradient(at 0 80%, #ac65f7 0, transparent 50%),
+        radial-gradient(at 56% 83%, #7cb120 0, transparent 50%),
+        radial-gradient(at 0 100%, #ffffff 0, transparent 50%),
+        radial-gradient(at 80% 100%, #d24f5c 0, transparent 70%),
+        radial-gradient(at 0 0, #ffffff 0, transparent 50%);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
