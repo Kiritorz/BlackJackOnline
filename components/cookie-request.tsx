@@ -36,7 +36,7 @@ export const CookieRequest = (props: CookieRequestProps) => {
             ? <div className="absolute bottom-0 z-20 w-full">
                 <div className="bg-gray-800 text-white px-4 py-4 sm:py-6">
                     <div className="container mx-auto">
-                        <div className="flex justify-between items-center">
+                        <div className="flex justify-between items-center gap-4">
                             <p className="text-sm sm:text-base">We use cookies to ensure you get the best experience on our website.</p>
                             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                                 <button className="bg-white text-sm sm:text-base text-gray-800 px-4 py-2 rounded-lg

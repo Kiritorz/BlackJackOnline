@@ -58,7 +58,7 @@ export function SOCKET(
             server.clients.forEach((c: WebSocket) => {
                 if (c.uuid === palUUID) {
                     if (c.readyState === c.OPEN) {
-                        c.send(new TextEncoder().encode(message.toString().slice(40)))
+                        c.send(new TextEncoder().encode(message.toString().slice(3)))
                     } else {
                         client.send(new TextEncoder().encode('Your friend is offline!'))
                     }
