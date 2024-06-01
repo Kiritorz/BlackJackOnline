@@ -12,8 +12,7 @@ export const HelpModal = (props: HelpModalProps) => {
             <ModalContent>
                 <ModalHeader className="text-2xl pb-2">How to play BlackJack?</ModalHeader>
                 <ModalBody className="mb-4 pt-0">
-                    <p className="">Before you get started with <b>BlackJack</b>, you need to know how to play.
-                        In this quick BlackJack guide, we’ll tell you the basics of how to do just that!
+                    <p className="">In this quick BlackJack guide, we’ll tell you the basics of how to do just that!
                     </p>
                     <div className="bg-green-100/80 py-2 px-4 rounded-lg border-l-4 border-l-green-600">
                         <li><i>The aim of BlackJack is to beat the dealer’s hand without going over 21.</i></li>
