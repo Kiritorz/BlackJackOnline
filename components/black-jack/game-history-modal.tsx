@@ -46,36 +46,24 @@ export const saveOne = (record: RecordProps) => {
   }
 }
 
-interface GameHistoryButtonProps {
+interface GameHistoryModalProps {
   refresh: number,
-  setRefresh: Dispatch<SetStateAction<number>>
+  setRefresh: Dispatch<SetStateAction<number>>,
+  isGameHistoryOpen: boolean,
+  onGameHistoryOpen: () => void,
+  onGameHistoryOpenChange: ((isOpen: boolean) => void),
+  isCookieAlertOpen: boolean,
+  onCookieAlertOpen: () => void,
+  onCookieAlertOpenChange: ((isOpen: boolean) => void),
 }
 
-export const GameHistoryButton = (props: GameHistoryButtonProps) => {
+export const GameHistoryModal = (props: GameHistoryModalProps) => {
   // 将游戏记录保存到本地
   // 保存的数据结构为: {result: "pw" | "dw" | "draw", mode: "player" | "dealer", playerSum: number, dealerSum: number}
 
-  const { isOpen: isHistoryOpen, onOpen: onHistoryOpen, onOpenChange: onHistoryOpenChange } = useDisclosure()
-  const { isOpen: isAlertOpen, onOpen: onAlertOpen, onOpenChange: onAlertOpenChange } = useDisclosure()
-
   return (
-    <div className="absolute top-0 left-0 z-10">
-      <div className="w-40 sm:w-44 m-2 px-2 py-1 rounded-lg select-none cursor-pointer bg-emerald-600 hover:bg-emerald-500 border-emerald-700
-     text-white transition ease-in-out active:scale-95 text-center text-sm sm:text-base
-      "
-        role="presentation"
-        onClick={() => {
-          cookie.update()
-          if (cookie.get(CookieSetKey) === true) {
-            onHistoryOpen()
-          } else {
-            onAlertOpen()
-          }
-        }}
-      >
-        View Game History
-      </div>
-      <Modal size="3xl" isOpen={isHistoryOpen} onOpenChange={onHistoryOpenChange} scrollBehavior="inside">
+    <div>
+      <Modal size="3xl" isOpen={props.isGameHistoryOpen} onOpenChange={props.onGameHistoryOpenChange} scrollBehavior="inside">
         <ModalContent>
           <ModalHeader className="flex flex-col pb-2">
             <p className="text-2xl">Game History</p>
@@ -125,7 +113,8 @@ export const GameHistoryButton = (props: GameHistoryButtonProps) => {
               <button className="w-full bg-danger/20 hover:bg-danger/30 text-danger hover: px-4 py-2 rounded-lg active:scale-95 transition ease-in-out"
                 onClick={() => {
                   cookie.remove(saveKey)
-                  onHistoryOpenChange()
+                  // 关闭窗口
+                  props.onGameHistoryOpenChange(false)
                 }}
               >
                 Clear all history
@@ -133,7 +122,7 @@ export const GameHistoryButton = (props: GameHistoryButtonProps) => {
             </ModalFooter>}
         </ModalContent>
       </Modal>
-      <Modal size="3xl" isOpen={isAlertOpen} onOpenChange={onAlertOpenChange} scrollBehavior="inside">
+      <Modal size="3xl" isOpen={props.isCookieAlertOpen} onOpenChange={props.onCookieAlertOpenChange} scrollBehavior="inside">
         <ModalContent>
           <ModalHeader className="text-2xl pb-2">
             Not Available
@@ -150,15 +139,15 @@ export const GameHistoryButton = (props: GameHistoryButtonProps) => {
               onClick={() => {
                 cookie.set(CookieSetKey, true)
                 props.setRefresh(props.refresh + 1)
-                onAlertOpenChange()
-                onHistoryOpen()
+                props.onCookieAlertOpenChange(false)
+                props.onGameHistoryOpen()
               }}
             >Accept All Cookies</button>
             <button className="bg-gray-800 text-white px-4 py-2 rounded-lg
                             hover:bg-gray-700 active:scale-95 transition ease-in-out"
               onClick={() => {
                 cookie.set(CookieSetKey, false)
-                onAlertOpenChange()
+                props.onCookieAlertOpenChange(false)
               }}
             >Refuse</button>
           </ModalFooter>

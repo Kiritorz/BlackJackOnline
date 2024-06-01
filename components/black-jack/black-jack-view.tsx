@@ -1,13 +1,15 @@
 import { BlackJackPlayerIcon } from "@/public/BlackJackPlayerIcon"
 import { BlackJackDealerIcon } from "@/public/BlackJackDealerIcon"
-import { Divider, Modal, ModalBody, ModalContent, ModalHeader, useDisclosure } from "@nextui-org/react";
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Divider, Modal, ModalBody, ModalContent, ModalHeader, useDisclosure, Button } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { Card, CardProps } from "@/components/black-jack/card";
 import { dealerPolicy, generateDeck, getCardValue, getDeckSum, hasUsableAce, hit, playerPolicy, stand } from "./black-jack";
-import { GameHistoryButton, saveOne } from "./game-history-button";
+import { GameHistoryModal, saveOne } from "./game-history-modal";
 import { AutoCalcButton } from "./auto-calc-button";
 import { CookieRequest } from "../cookie-request";
-import { FriendsMatchView } from "../ws/friends-match-view";
+import { FriendsMatchModal } from "../ws/friends-match-modal";
+import { HelpModal } from "./help-modal";
+import { Bars3Icon, ClockIcon, GlobeAsiaAustraliaIcon, SparklesIcon } from "@heroicons/react/20/solid";
 
 export const BlackJackView = () => {
 
@@ -21,7 +23,10 @@ export const BlackJackView = () => {
     const [userTip, setUserTip] = useState("")
     const [endMessage, setEndMessage] = useState("")
 
-    const { isOpen: isHelpOpen, onOpen: onHelpOpen, onClose: onHelpClose, onOpenChange: onHelpOpenChange } = useDisclosure()
+    const { isOpen: isHelpModalOpen, onOpen: onHelpModalOpen, onOpenChange: onHelpModalOpenChange } = useDisclosure()
+    const { isOpen: isFriendsMatchOpen, onOpen: onFriendsMatchOpen, onOpenChange: onFriendsMatchOpenChange } = useDisclosure()
+    const { isOpen: isGameHistoryOpen, onOpen: onGameHistoryOpen, onOpenChange: onGameHistoryChange } = useDisclosure()
+    const { isOpen: isCookieAlertOpen, onOpen: onCookieAlertOpen, onOpenChange: onCookieAlertChange } = useDisclosure()
 
     const [playerDeck, setPlayerDeck] = useState<CardProps[]>([])
     const [dealerDeck, setDealerDeck] = useState<CardProps[]>([])
@@ -379,48 +384,68 @@ cursor-pointer hover:text-gray-500 active:scale-95 transition ease-in-out transf
         </div>
     )
 
-    const HelpButton = (
-        gameStatus === "menu"
-            ? <div className="cursor-pointer w-36 text-center px-2 py-1 bg-emerald-600 hover:bg-emerald-500  border-emerald-500 text-white select-none rounded-lg active:scale-95 transition ease-in-out"
-                role="presentation" onClick={onHelpOpen}
-            >How to play?
-            </div>
-            : null
-    )
-
     return (
         <div className="relative flex">
             <CookieRequest refresh={cookieSetRefresh} />
-            <GameHistoryButton refresh={cookieSetRefresh} setRefresh={setCookieSetRefresh} />
-            <FriendsMatchView />
+            <Dropdown>
+                <DropdownTrigger>
+                    <div
+                        className="absolute m-2 p-2 rounded-lg bg-gray-100 cursor-pointer hover:bg-gray-200 active:scale-95 transition ease-in-out transform-gpu"
+                    >
+                        <Bars3Icon width={20} height={20} />
+                    </div>
+                </DropdownTrigger>
+                <DropdownMenu
+                    aria-label="Dropdown menu with description"
+                >
+                    <DropdownItem
+                        key="get-help"
+                        description="Learn How to Play"
+                        textValue="Learn How to Play"
+                        startContent={<SparklesIcon fill="#1DCD46" width={20} height={20} />}
+                        onClick={onHelpModalOpen}
+                    />
+                    <DropdownItem
+                        key="game-history"
+                        description="View Game History"
+                        textValue="View Game History"
+                        startContent={<ClockIcon fill="#EBA61D" width={20} height={20} />}
+                        onClick={onGameHistoryOpen}
+                    />
+                    <DropdownItem
+                        key="friends-match"
+                        description="Play With Friends"
+                        textValue="Play With Friends"
+                        startContent={<GlobeAsiaAustraliaIcon fill="#1D8FCD" width={20} height={20} />}
+                        onClick={onFriendsMatchOpen}
+                    />
+                </DropdownMenu>
+            </Dropdown>
             <AutoCalcButton checkMode={checkMode} setCheckMode={setCheckMode} isHidden={gameStatus !== "gaming" && gameStatus !== "await" && gameStatus !== "standing"} />
             <section className="relative w-screen h-screen flex flex-col items-center justify-center gap-4 py-8">
                 {Title}
                 {MainView}
-                {HelpButton}
             </section>
-            <Modal size="3xl" isOpen={isHelpOpen} onOpenChange={onHelpOpenChange}>
-                <ModalContent>
-                    <ModalHeader className="text-2xl pb-2">How to play BlackJack?</ModalHeader>
-                    <ModalBody className="mb-4 pt-0">
-                        <p className="">Before you get started with <b>BlackJack</b>, you need to know how to play.
-                            In this quick BlackJack guide, we’ll tell you the basics of how to do just that!
-                        </p>
-                        <div className="bg-green-100/80 py-2 px-4 rounded-lg border-l-4 border-l-green-600">
-                            <li><i>The aim of BlackJack is to beat the dealer’s hand without going over 21.</i></li>
-                            <li><i>If you go over 21, you go ‘bust’ and you’ve lost.</i></li>
-                            <li><i>If the dealer reaches 21 before you, you’ve lost.</i></li>
-                            <li><i>If the dealer goes bust and you’ve gotten closer to 21 than they have, you win!</i></li>
-                            <li><i>Picture cards (King, Queen, Jack) count as ‘10’, while Aces can either be 1 or 11, depending on what makes better sense for your hand.
-                                Cards 2-10 count at face value.</i></li>
-                        </div>
-                        <p>Tell the dealer to <b>hit</b> if you want another card.
-                            <br />
-                            Tell the dealer to <b>stand</b> if you’re happy with your cards and don’t want to be given another one.
-                        </p>
-                    </ModalBody>
-                </ModalContent>
-            </Modal>
+            <GameHistoryModal
+                refresh={cookieSetRefresh}
+                setRefresh={setCookieSetRefresh}
+                isGameHistoryOpen={isGameHistoryOpen}
+                onGameHistoryOpen={onGameHistoryOpen}
+                onGameHistoryOpenChange={onGameHistoryChange}
+                isCookieAlertOpen={isCookieAlertOpen}
+                onCookieAlertOpen={onCookieAlertOpen}
+                onCookieAlertOpenChange={onCookieAlertChange}
+            />
+            <FriendsMatchModal
+                isOpen={isFriendsMatchOpen}
+                onOpen={onFriendsMatchOpen}
+                onOpenChange={onFriendsMatchOpenChange}
+            />
+            <HelpModal
+                isOpen={isHelpModalOpen}
+                onOpen={onHelpModalOpen}
+                onOpenChange={onHelpModalOpenChange}
+            />
         </div>
     )
 }

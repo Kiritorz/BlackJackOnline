@@ -9,6 +9,7 @@
 		"lint": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix"
 	},
 	"dependencies": {
+		"@heroicons/react": "^2.1.3",
 		"@nextui-org/react": "^2.4.0",
 		"@react-aria/visually-hidden": "^3.8.10",
 		"@types/node": "20.5.7",
