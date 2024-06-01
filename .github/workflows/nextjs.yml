@@ -48,6 +48,10 @@ jobs:
             echo "Unable to determine package manager"
             exit 1
           fi
+      - name: Patch next-ws
+        run: |
+          echo "manager=npx" >> $GITHUB_OUTPUT
+          echo "command=next-ws-cli@latest patch" >> $GITHUB_OUTPUT
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
