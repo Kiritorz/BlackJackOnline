@@ -1,27 +1,29 @@
-import { BlackJackPlayerIcon } from "@/public/BlackJackPlayerIcon"
-import { BlackJackDealerIcon } from "@/public/BlackJackDealerIcon"
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Divider, Modal, ModalBody, ModalContent, ModalHeader, useDisclosure, Button } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+import { BlackJackPlayerIcon } from "@/public/icons/BlackJackPlayerIcon"
+import { BlackJackDealerIcon } from "@/public/icons/BlackJackDealerIcon"
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Divider, Modal, ModalBody, ModalContent, ModalHeader, useDisclosure, Button, DropdownSection } from "@nextui-org/react";
+import { useEffect, useRef, useState } from "react";
 import { Card, CardProps } from "@/components/black-jack/card";
 import { dealerPolicy, generateDeck, getCardValue, getDeckSum, hasUsableAce, hit, playerPolicy, stand } from "./black-jack";
 import { GameHistoryModal, saveOne } from "./game-history-modal";
-import { AutoCalcButton } from "./auto-calc-button";
 import { CookieRequest, CookieSetKey, cookie } from "../cookie-request";
 import { FriendsMatchModal } from "../ws/friends-match-modal";
 import { HelpModal } from "./help-modal";
-import { Bars3Icon, ClockIcon, GlobeAsiaAustraliaIcon, SparklesIcon } from "@heroicons/react/20/solid";
+import { Bars3Icon, CalculatorIcon, ClockIcon, GlobeAsiaAustraliaIcon, SparklesIcon, SpeakerWaveIcon } from "@heroicons/react/20/solid";
 
 export const BlackJackView = () => {
 
     const [gameStatus, setGameStatus] = useState<"menu" | "gaming" | "await" | "standing" | "win" | "lose" | "draw">("menu")
     const [mode, setMode] = useState<"player" | "dealer">("player")
     const [checkMode, setCheckMode] = useState(false)
+    const [soundOpen, setSoundOpen] = useState(true)
     const [endFlag, setEndFlag] = useState(false)
 
     const [cookieSetRefresh, setCookieSetRefresh] = useState(0)
 
     const [userTip, setUserTip] = useState("")
     const [endMessage, setEndMessage] = useState("")
+
+    const audioRef = useRef<HTMLAudioElement>(null)
 
     const { isOpen: isHelpModalOpen, onOpen: onHelpModalOpen, onOpenChange: onHelpModalOpenChange } = useDisclosure()
     const { isOpen: isFriendsMatchOpen, onOpen: onFriendsMatchOpen, onOpenChange: onFriendsMatchOpenChange } = useDisclosure()
@@ -30,6 +32,11 @@ export const BlackJackView = () => {
 
     const [playerDeck, setPlayerDeck] = useState<CardProps[]>([])
     const [dealerDeck, setDealerDeck] = useState<CardProps[]>([])
+
+    // 初始化音量设置
+    useEffect(() => {
+        setSoundOpen(true)
+    }, [])
 
     // 玩家智能体
     useEffect(() => {
@@ -45,7 +52,7 @@ export const BlackJackView = () => {
                         timer = null;
                     }
                 } else {
-                    hit("player", mode, playerDeck, dealerDeck, setPlayerDeck, setDealerDeck);
+                    hit("player", mode, playerDeck, dealerDeck, setPlayerDeck, setDealerDeck, soundOpen);
                 }
             }
         };
@@ -80,7 +87,7 @@ export const BlackJackView = () => {
                         timer = null;
                     }
                 } else {
-                    hit("dealer", mode, playerDeck, dealerDeck, setPlayerDeck, setDealerDeck);
+                    hit("dealer", mode, playerDeck, dealerDeck, setPlayerDeck, setDealerDeck, soundOpen);
                 }
             }
         };
@@ -294,9 +301,9 @@ cursor-pointer hover:text-gray-500 active:scale-95 transition ease-in-out transf
                     role="presentation"
                     onClick={() => {
                         if (mode === "player" && gameStatus !== "await" && gameStatus !== "standing") {
-                            hit("player", mode, playerDeck, dealerDeck, setPlayerDeck, setDealerDeck)
+                            hit("player", mode, playerDeck, dealerDeck, setPlayerDeck, setDealerDeck, soundOpen)
                         } else if (mode === "dealer" && gameStatus !== "await" && gameStatus !== "gaming") {
-                            hit("dealer", mode, playerDeck, dealerDeck, setPlayerDeck, setDealerDeck)
+                            hit("dealer", mode, playerDeck, dealerDeck, setPlayerDeck, setDealerDeck, soundOpen)
                         }
                     }}
                 >
@@ -384,20 +391,19 @@ cursor-pointer hover:text-gray-500 active:scale-95 transition ease-in-out transf
         </div>
     )
 
-    return (
-        <div className="relative flex">
-            <CookieRequest refresh={cookieSetRefresh} />
-            <Dropdown>
-                <DropdownTrigger>
-                    <div
-                        className="absolute m-2 p-2 rounded-lg bg-gray-100 cursor-pointer hover:bg-gray-200 active:scale-95 transition ease-in-out transform-gpu"
-                    >
-                        <Bars3Icon width={20} height={20} />
-                    </div>
-                </DropdownTrigger>
-                <DropdownMenu
-                    aria-label="Dropdown menu with description"
+    const DropDown = (
+        <Dropdown aria-label="Dropdown Menu">
+            <DropdownTrigger>
+                <div
+                    className="absolute m-2 p-2 rounded-lg bg-gray-100 cursor-pointer hover:bg-gray-200 active:scale-95 transition ease-in-out transform-gpu"
                 >
+                    <Bars3Icon width={20} height={20} />
+                </div>
+            </DropdownTrigger>
+            <DropdownMenu
+                aria-label="Dropdown menu with description"
+            >
+                <DropdownSection showDivider>
                     <DropdownItem
                         key="get-help"
                         description="Learn How to Play"
@@ -425,9 +431,36 @@ cursor-pointer hover:text-gray-500 active:scale-95 transition ease-in-out transf
                         startContent={<GlobeAsiaAustraliaIcon fill="#1D8FCD" width={20} height={20} />}
                         onPress={onFriendsMatchOpen}
                     />
-                </DropdownMenu>
-            </Dropdown>
-            <AutoCalcButton checkMode={checkMode} setCheckMode={setCheckMode} isHidden={gameStatus !== "gaming" && gameStatus !== "await" && gameStatus !== "standing"} />
+                </DropdownSection>
+                <DropdownSection>
+                    <DropdownItem
+                        key="autocalc-switch"
+                        description={checkMode === true ? "Close Auto Calculator" : "Open Auto Calculator"}
+                        textValue={checkMode === true ? "Close Auto Calculator" : "Open Auto Calculator"}
+                        startContent={<CalculatorIcon fill={checkMode === true ? "#E05E41" : "#9C9C9C"} width={20} height={20} />}
+                        onPress={() => {
+                            setCheckMode(!checkMode)
+                        }}
+                    />
+                    <DropdownItem
+                        key="sound-switch"
+                        description={soundOpen === true ? "Close Sound" : "Open Sound"}
+                        textValue={soundOpen === true ? "Close Sound" : "Open Sound"}
+                        startContent={<SpeakerWaveIcon fill={soundOpen === true ? "#34B599" : "#9C9C9C"} width={20} height={20} />}
+                        onPress={() => {
+                            setSoundOpen(!soundOpen)
+                        }}
+                    />
+                </DropdownSection>
+            </DropdownMenu>
+        </Dropdown>
+    )
+
+    return (
+        <div className="relative flex">
+            <CookieRequest refresh={cookieSetRefresh} />
+            {DropDown}
+
             <section className="relative w-screen h-screen flex flex-col items-center justify-center gap-4 py-8">
                 {Title}
                 {MainView}
@@ -452,6 +485,7 @@ cursor-pointer hover:text-gray-500 active:scale-95 transition ease-in-out transf
                 onOpen={onHelpModalOpen}
                 onOpenChange={onHelpModalOpenChange}
             />
+            <audio ref={audioRef}></audio>
         </div>
     )
 }

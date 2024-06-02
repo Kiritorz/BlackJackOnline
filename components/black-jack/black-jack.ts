@@ -119,8 +119,10 @@ export const hit = (
     playerDeck: CardProps[],
     dealerDeck: CardProps[],
     setPlayerDeck: Dispatch<SetStateAction<CardProps[]>>,
-    setDealerDeck: Dispatch<SetStateAction<CardProps[]>>
+    setDealerDeck: Dispatch<SetStateAction<CardProps[]>>,
+    isSoundOpen: boolean
 ) => {
+    if (isSoundOpen) playHitSound()
     const randomSuit = suits[Math.floor(Math.random() * suits.length)]
     const randomSymbol = symbols[Math.floor(Math.random() * symbols.length)]
     if (who === "player") {
@@ -143,6 +145,22 @@ export const hit = (
             setDealerDeck([...dealerDeck, { symbol: randomSymbol, suit: randomSuit }])
         }
     }
+}
+
+const playHitSound = () => {
+    const audioElement = new Audio()
+
+    const sound = {
+        src: "/sounds/card-drop.mp3",
+        volume: 0.5,
+        playbackRate: 1
+    }
+
+    audioElement.src = sound.src
+    audioElement.playbackRate = sound.playbackRate
+    audioElement.volume = sound.volume
+
+    audioElement.play()
 }
 
 // 停牌
