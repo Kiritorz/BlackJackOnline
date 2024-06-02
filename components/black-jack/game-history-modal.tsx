@@ -38,9 +38,9 @@ export const saveOne = (record: RecordProps) => {
   cookie.update()
   if (cookie.get(CookieSetKey) === true) {
     if (cookie.get(saveKey) == undefined || cookie.get(saveKey).length === 0) {
-      cookie.set(saveKey, [record])
+      cookie.set(saveKey, [record], { expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) })
     } else {
-      cookie.set(saveKey, [...cookie.get(saveKey), record])
+      cookie.set(saveKey, [...cookie.get(saveKey), record], { expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) })
     }
   }
 }
