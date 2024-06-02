@@ -113,7 +113,7 @@ export const FriendsMatchModal = (props: FriendsMatchModalProps) => {
       <ModalBody className="mb-4">
         <div className="bg-red-100/80 py-2 px-4 rounded-lg border-l-4 border-l-red-600">
           <i>
-            We are sorry that <b>Match Friends</b> is not available now due to the limitation of GitHub Pages.
+            We are sorry that <b>Match Friends</b> is not available now due to some limitations.
           </i>
         </div>
       </ModalBody>
