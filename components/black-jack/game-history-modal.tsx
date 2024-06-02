@@ -136,7 +136,7 @@ export const GameHistoryModal = (props: GameHistoryModalProps) => {
             <button className="bg-gray-800 text-white px-4 py-2 rounded-lg
                             hover:bg-gray-700 active:scale-95 transition ease-in-out"
               onClick={() => {
-                cookie.set(CookieSetKey, true)
+                cookie.set(CookieSetKey, true, { expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) })
                 props.setRefresh(props.refresh + 1)
                 props.onCookieAlertOpenChange(false)
                 props.onGameHistoryOpen()
@@ -145,7 +145,7 @@ export const GameHistoryModal = (props: GameHistoryModalProps) => {
             <button className="bg-gray-800 text-white px-4 py-2 rounded-lg
                             hover:bg-gray-700 active:scale-95 transition ease-in-out"
               onClick={() => {
-                cookie.set(CookieSetKey, false)
+                cookie.set(CookieSetKey, false, { expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) })
                 props.setRefresh(props.refresh + 1)
                 props.onCookieAlertOpenChange(false)
               }}

@@ -42,14 +42,14 @@ export const CookieRequest = (props: CookieRequestProps) => {
                                 <button className="bg-white text-sm sm:text-base text-gray-800 px-4 py-2 rounded-lg
                             hover:bg-gray-100 active:scale-95 transition ease-in-out"
                                     onClick={() => {
-                                        cookie.set(CookieSetKey, true)
+                                        cookie.set(CookieSetKey, true, { expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) })
                                         setIsSet(true)
                                     }}
                                 >Accept</button>
                                 <button className="bg-white text-sm sm:text-base text-gray-800 px-4 py-2 rounded-lg
                             hover:bg-gray-100 active:scale-95 transition ease-in-out"
                                     onClick={() => {
-                                        cookie.set(CookieSetKey, false)
+                                        cookie.set(CookieSetKey, false, { expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) })
                                         setIsSet(true)
                                     }}
                                 >Refuse</button>
