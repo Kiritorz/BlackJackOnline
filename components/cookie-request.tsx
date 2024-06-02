@@ -4,7 +4,7 @@ import { Cookies } from "react-cookie"
 
 export const CookieSetKey = "blackjack-cookie-accepted"
 
-const cookie = new Cookies()
+export const cookie = new Cookies()
 
 interface CookieRequestProps {
     refresh: number
@@ -18,7 +18,7 @@ export const CookieRequest = (props: CookieRequestProps) => {
         cookie.update()
         if (cookie.get(CookieSetKey) !== true && cookie.get(CookieSetKey) !== false) {
             setIsSet(false)
-        } else if (cookie.get(CookieSetKey) === true) {
+        } else if (cookie.get(CookieSetKey) === true || cookie.get(CookieSetKey) === false) {
             setIsSet(true)
         }
     }

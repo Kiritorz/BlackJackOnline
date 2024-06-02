@@ -19,7 +19,7 @@ export function Providers({ children, themeProps }: ProvidersProps) {
     <WebSocketProvider
       url={
         process.env.NODE_ENV === "production"
-          ? "wss://www.kiritorz.github.io/BlackJackOnline/api/ws"
+          ? "wss://k1ss.fun/api/ws"
           : "ws://localhost:3000/api/ws"
       }
     >

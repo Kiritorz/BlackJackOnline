@@ -6,7 +6,7 @@ import { Card, CardProps } from "@/components/black-jack/card";
 import { dealerPolicy, generateDeck, getCardValue, getDeckSum, hasUsableAce, hit, playerPolicy, stand } from "./black-jack";
 import { GameHistoryModal, saveOne } from "./game-history-modal";
 import { AutoCalcButton } from "./auto-calc-button";
-import { CookieRequest } from "../cookie-request";
+import { CookieRequest, CookieSetKey, cookie } from "../cookie-request";
 import { FriendsMatchModal } from "../ws/friends-match-modal";
 import { HelpModal } from "./help-modal";
 import { Bars3Icon, ClockIcon, GlobeAsiaAustraliaIcon, SparklesIcon } from "@heroicons/react/20/solid";
@@ -410,7 +410,13 @@ cursor-pointer hover:text-gray-500 active:scale-95 transition ease-in-out transf
                         description="View Game History"
                         textValue="View Game History"
                         startContent={<ClockIcon fill="#EBA61D" width={20} height={20} />}
-                        onPress={onGameHistoryOpen}
+                        onPress={() => {
+                            if (cookie.get(CookieSetKey) === true) {
+                                onGameHistoryOpen()
+                            } else {
+                                onCookieAlertOpen()
+                            }
+                        }}
                     />
                     <DropdownItem
                         key="friends-match"

@@ -1,6 +1,6 @@
 import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@nextui-org/react"
 import { Cookies } from "react-cookie"
-import { CookieSetKey } from "../cookie-request"
+import { CookieSetKey, cookie } from "../cookie-request"
 import { Dispatch, SetStateAction } from "react"
 
 export interface RecordProps {
@@ -14,7 +14,6 @@ export interface RecordProps {
   ds: number
 }
 
-const cookie = new Cookies()
 const saveKey = "blackjack-records"
 
 const getResult = (record: RecordProps) => {
@@ -147,6 +146,7 @@ export const GameHistoryModal = (props: GameHistoryModalProps) => {
                             hover:bg-gray-700 active:scale-95 transition ease-in-out"
               onClick={() => {
                 cookie.set(CookieSetKey, false)
+                props.setRefresh(props.refresh + 1)
                 props.onCookieAlertOpenChange(false)
               }}
             >Refuse</button>
