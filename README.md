@@ -2,6 +2,8 @@
 
 Welcome to the BlackJack Online Game project! This is a web-based card game built using modern TypeScript frameworks and libraries. Below you'll find an overview of the project, its setup, and how to run it locally.
 
+You can try it on https://www.k1ss.fun .
+
 ## Project Overview
 
 BlackJack is a classic card game that allows players to compete against a virtual dealer. The goal of the game is to have a hand value that is closer to 21 than that of the dealer, without exceeding 21.
