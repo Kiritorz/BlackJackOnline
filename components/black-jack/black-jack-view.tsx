@@ -1,11 +1,10 @@
 import { BlackJackPlayerIcon } from "@/public/icons/BlackJackPlayerIcon"
 import { BlackJackDealerIcon } from "@/public/icons/BlackJackDealerIcon"
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Divider, Modal, ModalBody, ModalContent, ModalHeader, useDisclosure, Button, DropdownSection } from "@nextui-org/react";
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Divider, useDisclosure, DropdownSection } from "@nextui-org/react";
 import { useEffect, useRef, useState } from "react";
 import { Card, CardProps } from "@/components/black-jack/card";
 import { dealerPolicy, generateDeck, getCardValue, getDeckSum, hasUsableAce, hit, playerPolicy, stand } from "./black-jack";
 import { GameHistoryModal, saveOne } from "./game-history-modal";
-import { CookieRequest, CookieSetKey, cookie } from "../cookie-request";
 import { FriendsMatchModal } from "../ws/friends-match-modal";
 import { HelpModal } from "./help-modal";
 import { Bars3Icon, CalculatorIcon, ClockIcon, GlobeAsiaAustraliaIcon, SparklesIcon, SpeakerWaveIcon } from "@heroicons/react/20/solid";
@@ -18,7 +17,7 @@ export const BlackJackView = () => {
     const [soundOpen, setSoundOpen] = useState(true)
     const [endFlag, setEndFlag] = useState(false)
 
-    const [cookieSetRefresh, setCookieSetRefresh] = useState(0)
+    const [refreshGameHistory, setRefreshGameHistory] = useState(false)
 
     const [userTip, setUserTip] = useState("")
     const [endMessage, setEndMessage] = useState("")
@@ -28,7 +27,6 @@ export const BlackJackView = () => {
     const { isOpen: isHelpModalOpen, onOpen: onHelpModalOpen, onOpenChange: onHelpModalOpenChange } = useDisclosure()
     const { isOpen: isFriendsMatchOpen, onOpen: onFriendsMatchOpen, onOpenChange: onFriendsMatchOpenChange } = useDisclosure()
     const { isOpen: isGameHistoryOpen, onOpen: onGameHistoryOpen, onOpenChange: onGameHistoryChange } = useDisclosure()
-    const { isOpen: isCookieAlertOpen, onOpen: onCookieAlertOpen, onOpenChange: onCookieAlertChange } = useDisclosure()
 
     const [playerDeck, setPlayerDeck] = useState<CardProps[]>([])
     const [dealerDeck, setDealerDeck] = useState<CardProps[]>([])
@@ -37,6 +35,13 @@ export const BlackJackView = () => {
     useEffect(() => {
         setSoundOpen(true)
     }, [])
+
+    // 监听游戏状态, 设置刷新游戏历史记录
+    useEffect(() => {
+        if (gameStatus === 'win' || gameStatus === 'lose' || gameStatus === 'draw') {
+            setRefreshGameHistory(true)
+        }
+    }, [gameStatus])
 
     // 玩家智能体
     useEffect(() => {
@@ -417,11 +422,7 @@ cursor-pointer hover:text-gray-500 active:scale-95 transition ease-in-out transf
                         textValue="View Game History"
                         startContent={<ClockIcon fill="#EBA61D" width={20} height={20} />}
                         onPress={() => {
-                            if (cookie.get(CookieSetKey) === true) {
-                                onGameHistoryOpen()
-                            } else {
-                                onCookieAlertOpen()
-                            }
+                            onGameHistoryOpen()
                         }}
                     />
                     <DropdownItem
@@ -458,22 +459,17 @@ cursor-pointer hover:text-gray-500 active:scale-95 transition ease-in-out transf
 
     return (
         <div className="relative flex">
-            <CookieRequest refresh={cookieSetRefresh} />
             {DropDown}
-
             <section className="relative w-screen h-screen flex flex-col items-center justify-center gap-4 py-8">
                 {Title}
                 {MainView}
             </section>
             <GameHistoryModal
-                refresh={cookieSetRefresh}
-                setRefresh={setCookieSetRefresh}
+                refreshGameHistory={refreshGameHistory}
+                setRefreshGameHistory={setRefreshGameHistory}
                 isGameHistoryOpen={isGameHistoryOpen}
                 onGameHistoryOpen={onGameHistoryOpen}
                 onGameHistoryOpenChange={onGameHistoryChange}
-                isCookieAlertOpen={isCookieAlertOpen}
-                onCookieAlertOpen={onCookieAlertOpen}
-                onCookieAlertOpenChange={onCookieAlertChange}
             />
             <FriendsMatchModal
                 isOpen={isFriendsMatchOpen}
