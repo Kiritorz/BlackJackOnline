@@ -5,7 +5,6 @@ import { NextUIProvider } from "@nextui-org/system";
 import { useRouter } from "next/navigation";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { ThemeProviderProps } from "next-themes/dist/types";
-import { WebSocketProvider } from "next-ws/client";
 
 export interface ProvidersProps {
   children: React.ReactNode;
@@ -16,16 +15,8 @@ export function Providers({ children, themeProps }: ProvidersProps) {
   const router = useRouter();
 
   return (
-    <WebSocketProvider
-      url={
-        process.env.NODE_ENV === "production"
-          ? "wss://k1ss.fun/api/ws"
-          : "ws://localhost:3000/api/ws"
-      }
-    >
-      <NextUIProvider navigate={router.push}>
-        <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>
-      </NextUIProvider>
-    </WebSocketProvider>
+    <NextUIProvider navigate={router.push}>
+      <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>
+    </NextUIProvider>
   );
 }

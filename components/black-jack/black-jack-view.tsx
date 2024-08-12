@@ -7,9 +7,8 @@ import { useEffect, useRef, useState } from "react";
 import { Card, CardProps } from "@/components/black-jack/card";
 import { dealerPolicy, generateDeck, getCardValue, getDeckSum, hasUsableAce, hit, playerPolicy, stand } from "./black-jack";
 import { GameHistoryModal, saveOne } from "./game-history-modal";
-import { FriendsMatchModal } from "../ws/friends-match-modal";
 import { HelpModal } from "./help-modal";
-import { Bars3Icon, CalculatorIcon, ClockIcon, GlobeAsiaAustraliaIcon, SparklesIcon, SpeakerWaveIcon } from "@heroicons/react/20/solid";
+import { Bars3Icon, CalculatorIcon, ClockIcon, SparklesIcon, SpeakerWaveIcon } from "@heroicons/react/20/solid";
 
 export const BlackJackView = () => {
 
@@ -27,7 +26,6 @@ export const BlackJackView = () => {
     const audioRef = useRef<HTMLAudioElement>(null)
 
     const { isOpen: isHelpModalOpen, onOpen: onHelpModalOpen, onOpenChange: onHelpModalOpenChange } = useDisclosure()
-    const { isOpen: isFriendsMatchOpen, onOpen: onFriendsMatchOpen, onOpenChange: onFriendsMatchOpenChange } = useDisclosure()
     const { isOpen: isGameHistoryOpen, onOpen: onGameHistoryOpen, onOpenChange: onGameHistoryChange } = useDisclosure()
 
     const [playerDeck, setPlayerDeck] = useState<CardProps[]>([])
@@ -445,13 +443,6 @@ cursor-pointer hover:text-gray-500 active:scale-95 transition ease-in-out transf
                             onGameHistoryOpen()
                         }}
                     />
-                    <DropdownItem
-                        key="friends-match"
-                        description="Play With Friends"
-                        textValue="Play With Friends"
-                        startContent={<GlobeAsiaAustraliaIcon fill="#1D8FCD" width={20} height={20} />}
-                        onPress={onFriendsMatchOpen}
-                    />
                 </DropdownSection>
                 <DropdownSection>
                     <DropdownItem
@@ -490,11 +481,6 @@ cursor-pointer hover:text-gray-500 active:scale-95 transition ease-in-out transf
                 isGameHistoryOpen={isGameHistoryOpen}
                 onGameHistoryOpen={onGameHistoryOpen}
                 onGameHistoryOpenChange={onGameHistoryChange}
-            />
-            <FriendsMatchModal
-                isOpen={isFriendsMatchOpen}
-                onOpen={onFriendsMatchOpen}
-                onOpenChange={onFriendsMatchOpenChange}
             />
             <HelpModal
                 isOpen={isHelpModalOpen}
