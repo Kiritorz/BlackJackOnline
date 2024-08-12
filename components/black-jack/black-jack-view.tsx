@@ -1,5 +1,7 @@
 import { BlackJackPlayerIcon } from "@/public/icons/BlackJackPlayerIcon"
 import { BlackJackDealerIcon } from "@/public/icons/BlackJackDealerIcon"
+import { BargainingChip50Icon } from "@/public/icons/BargainingChip50Icon"
+import { BargainingChip100Icon } from "@/public/icons/BargainingChip100Icon"
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Divider, useDisclosure, DropdownSection } from "@nextui-org/react";
 import { useEffect, useRef, useState } from "react";
 import { Card, CardProps } from "@/components/black-jack/card";
@@ -235,43 +237,61 @@ export const BlackJackView = () => {
     }, [gameStatus])
 
     const MenuView = (
-        <div className="flex justify-between gap-4 sm:gap-16 w-11/12 sm:w-1/2 py-12 select-none">
-            <div className="w-full flex flex-col justify-center text-center rounded-lg bg-white hover:bg-gray-100
+        <div className="w-full flex flex-col justify-center">
+            <div className="flex justify-between mx-auto gap-4 sm:gap-16 w-11/12 sm:w-1/2 py-12 select-none">
+                <div className="w-full py-4 flex flex-col justify-center text-center rounded-lg bg-white hover:bg-gray-100
 cursor-pointer hover:text-gray-500 active:scale-95 transition ease-in-out transform-gpu"
-                role="presentation"
-                onClick={() => {
-                    setPlayerDeck([])
-                    setDealerDeck([])
-                    setEndFlag(false)
-                    setGameStatus("gaming")
-                    setMode("player")
-                    setUserTip("Your turn")
-                }}
-            >
-                <h1 className="text-blue-600 font-bold text-3xl">Player</h1>
-                <div className="mt-12 mx-auto">
-                    <BlackJackPlayerIcon />
+                    role="presentation"
+                    onClick={() => {
+                        setPlayerDeck([])
+                        setDealerDeck([])
+                        setEndFlag(false)
+                        setGameStatus("gaming")
+                        setMode("player")
+                        setUserTip("Your turn")
+                    }}
+                >
+                    <h1 className="text-blue-600 font-bold text-3xl">Player</h1>
+                    <div className="mt-8 mx-auto">
+                        <BlackJackPlayerIcon />
+                    </div>
+                    <p className="mt-8 font-semibold">Press to Start</p>
                 </div>
-                <p className="mt-12 font-semibold">Press to Start</p>
+                <Divider className="h-60 my-2" orientation="vertical" />
+                <div className="w-full py-4 flex flex-col justify-center text-center rounded-lg bg-white hover:bg-gray-100
+cursor-pointer hover:text-gray-500 active:scale-95 transition ease-in-out transform-gpu"
+                    role="presentation"
+                    onClick={() => {
+                        setPlayerDeck([])
+                        setDealerDeck([])
+                        setEndFlag(false)
+                        setGameStatus("gaming")
+                        setMode("dealer")
+                        setUserTip("Player's turn")
+                    }}
+                >
+                    <h1 className="text-green-600 font-bold text-3xl">Dealer</h1>
+                    <div className="mt-8 mx-auto">
+                        <BlackJackDealerIcon />
+                    </div>
+                    <p className="mt-8 font-semibold">Press to Start</p>
+                </div>
             </div>
-            <Divider className="h-80 my-2" orientation="vertical" />
-            <div className="w-full flex flex-col justify-center text-center rounded-lg bg-white hover:bg-gray-100
-cursor-pointer hover:text-gray-500 active:scale-95 transition ease-in-out transform-gpu"
-                role="presentation"
-                onClick={() => {
-                    setPlayerDeck([])
-                    setDealerDeck([])
-                    setEndFlag(false)
-                    setGameStatus("gaming")
-                    setMode("dealer")
-                    setUserTip("Player's turn")
-                }}
-            >
-                <h1 className="text-green-600 font-bold text-3xl">Dealer</h1>
-                <div className="mt-12 mx-auto">
-                    <BlackJackDealerIcon />
+            <div aria-label="Bargaining Chip Area"
+                className="h-[92px] gap-[52px] flex px-6 py-4 bg-white/60 rounded-lg mx-20">
+                <div className="relative flex">
+                    <BargainingChip100Icon className="hover:scale-105 hover:-translate-y-1 cursor-pointer active:scale-95 transition ease-in-out absolute skew-y-6 skew-x-6" fill="#CD6C1D" circleColor="#AB520A" />
+                    <BargainingChip100Icon className="hover:scale-105 hover:-translate-y-1 cursor-pointer active:scale-95 transition ease-in-out absolute skew-y-6 skew-x-6 translate-x-4" fill="#CD6C1D" circleColor="#AB520A" />
+                    <BargainingChip100Icon className="hover:scale-105 hover:-translate-y-1 cursor-pointer active:scale-95 transition ease-in-out absolute skew-y-6 skew-x-6 translate-x-8" fill="#CD6C1D" circleColor="#AB520A" />
                 </div>
-                <p className="mt-12 font-semibold">Press to Start</p>
+                <div className="relative flex">
+                    <BargainingChip50Icon className="hover:scale-105 hover:-translate-y-1 cursor-pointer active:scale-95 transition ease-in-out absolute skew-y-6 skew-x-6 translate-x-12" fill="#06A02D" circleColor="#048926" />
+                    <BargainingChip50Icon className="hover:scale-105 hover:-translate-y-1 cursor-pointer active:scale-95 transition ease-in-out absolute skew-y-6 skew-x-6 translate-x-16" fill="#06A02D" circleColor="#048926" />
+                    <BargainingChip50Icon className="hover:scale-105 hover:-translate-y-1 cursor-pointer active:scale-95 transition ease-in-out absolute skew-y-6 skew-x-6 translate-x-20" fill="#06A02D" circleColor="#048926" />
+                    <BargainingChip50Icon className="hover:scale-105 hover:-translate-y-1 cursor-pointer active:scale-95 transition ease-in-out absolute skew-y-6 skew-x-6 translate-x-24" fill="#06A02D" circleColor="#048926" />
+                    <BargainingChip50Icon className="hover:scale-105 hover:-translate-y-1 cursor-pointer active:scale-95 transition ease-in-out absolute skew-y-6 skew-x-6 translate-x-28" fill="#06A02D" circleColor="#048926" />
+                    <BargainingChip50Icon className="hover:scale-105 hover:-translate-y-1 cursor-pointer active:scale-95 transition ease-in-out absolute skew-y-6 skew-x-6 translate-x-32" fill="#06A02D" circleColor="#048926" />
+                </div>
             </div>
         </div>
     )
