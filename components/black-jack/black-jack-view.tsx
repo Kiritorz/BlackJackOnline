@@ -275,7 +275,7 @@ cursor-pointer hover:text-gray-500 active:scale-95 transition ease-in-out transf
                     <p className="mt-8 font-semibold">Press to Start</p>
                 </div>
             </div>
-            <div aria-label="Bargaining Chip Area"
+            {/* <div aria-label="Bargaining Chip Area"
                 className="h-[92px] gap-[52px] flex px-6 py-4 bg-white/60 rounded-lg mx-20">
                 <div className="relative flex">
                     <BargainingChip100Icon className="hover:scale-105 hover:-translate-y-1 cursor-pointer active:scale-95 transition ease-in-out absolute skew-y-6 skew-x-6" fill="#CD6C1D" circleColor="#AB520A" />
@@ -290,7 +290,7 @@ cursor-pointer hover:text-gray-500 active:scale-95 transition ease-in-out transf
                     <BargainingChip50Icon className="hover:scale-105 hover:-translate-y-1 cursor-pointer active:scale-95 transition ease-in-out absolute skew-y-6 skew-x-6 translate-x-28" fill="#06A02D" circleColor="#048926" />
                     <BargainingChip50Icon className="hover:scale-105 hover:-translate-y-1 cursor-pointer active:scale-95 transition ease-in-out absolute skew-y-6 skew-x-6 translate-x-32" fill="#06A02D" circleColor="#048926" />
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 
